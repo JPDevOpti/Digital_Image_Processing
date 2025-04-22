@@ -248,3 +248,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,windows,macos,linux
+
+# Custom virtual environment directory
+practice1imagenes/
