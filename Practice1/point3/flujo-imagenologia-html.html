@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flujo de Información Imagenológica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .process-row {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .process-box {
+            background-color: #fff;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 10px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .process-box.highlighted {
+            border-color: #e74c3c;
+            background-color: #fdedec;
+        }
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #3498db;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -25px;
+        }
+        .arrow-horizontal {
+            position: absolute;
+            width: 15px;
+            height: 0;
+            border-top: 2px solid #3498db;
+            top: 50%;
+        }
+        .protocol {
+            font-size: 12px;
+            background-color: #e8f4fd;
+            border-radius: 4px;
+            padding: 3px 8px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        .protocol.dicom {
+            background-color: #d1f0d5;
+            color: #27ae60;
+        }
+        .protocol.hl7 {
+            background-color: #fdebd0;
+            color: #e67e22;
+        }
+        .legend {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 4px;
+        }
+        .systems-container {
+            margin-top: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .systems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .system-item {
+            background-color: #ebf5fb;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flujo de Información Imagenológica</h1>
+        
+        <div class="flow-diagram">
+            <!-- Fila 1 -->
+            <div class="process-row">
+                <div class="process-box">
+                    <h3>Solicitud de examen</h3>
+                    <div class="protocol hl7">HL7 ADT/ORM</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 2 -->
+            <div class="process-row">
+                <div class="process-box">
+                    <h3>Sistema HIS</h3>
+                    <p>Hospital Information System</p>
+                    <div class="protocol hl7">HL7 ORM</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 3 -->
+            <div class="process-row">
+                <div class="process-box">
+                    <h3>Sistema RIS</h3>
+                    <p>Radiology Information System</p>
+                    <div class="protocol">Programación</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 4 -->
+            <div class="process-row">
+                <div class="process-box highlighted">
+                    <h3>Equipo de adquisición</h3>
+                    <p>TC, RM, RX, US, etc.</p>
+                    <div class="protocol dicom">DICOM Modalidad</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 5 -->
+            <div class="process-row">
+                <div class="process-box">
+                    <h3>Adquisición de imágenes</h3>
+                    <div class="protocol dicom">DICOM Storage</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 6 -->
+            <div class="process-row">
+                <div class="process-box highlighted">
+                    <h3>PACS</h3>
+                    <p>Picture Archiving and Communication System</p>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 7 - Bifurcación -->
+            <div class="process-row">
+                <div class="process-box" style="margin-right: 100px;">
+                    <h3>Estación de diagnóstico</h3>
+                    <div class="protocol dicom">DICOM Query/Retrieve</div>
+                    <div class="arrow"></div>
+                </div>
+                
+                <div class="process-box" style="margin-left: 100px;">
+                    <h3>Visualizador clínico</h3>
+                    <div class="protocol dicom">DICOM Web/WADO</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 8 - Continuación de bifurcación -->
+            <div class="process-row">
+                <div class="process-box" style="margin-right: 100px;">
+                    <h3>Procesamiento e interpretación</h3>
+                    <div class="protocol dicom">DICOM GSPS</div>
+                    <div class="arrow"></div>
+                </div>
+                
+                <div class="process-box" style="margin-left: 100px;">
+                    <h3>Consulta médica</h3>
+                    <p>Visualización con paciente</p>
+                </div>
+            </div>
+            
+            <!-- Fila 9 -->
+            <div class="process-row">
+                <div class="process-box" style="margin-right: 100px;">
+                    <h3>Informe radiológico</h3>
+                    <div class="protocol hl7">HL7 ORU</div>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+            
+            <!-- Fila 10 -->
+            <div class="process-row">
+                <div class="process-box">
+                    <h3>Historia clínica</h3>
+                    <p>Sistema HIS/EMR</p>
+                    <div class="protocol hl7">HL7 MDM/ORU</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #d1f0d5;"></div>
+                <span>DICOM: Digital Imaging and Communications in Medicine</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #fdebd0;"></div>
+                <span>HL7: Health Level 7</span>
+            </div>
+        </div>
+        
+        <div class="systems-container">
+            <h2>Sistemas y equipos involucrados</h2>
+            <div class="systems-grid">
+                <div class="system-item">
+                    <h4>HIS</h4>
+                    <p>Sistema de Información Hospitalaria</p>
+                </div>
+                <div class="system-item">
+                    <h4>RIS</h4>
+                    <p>Sistema de Información Radiológica</p>
+                </div>
+                <div class="system-item">
+                    <h4>PACS</h4>
+                    <p>Sistema de Archivo y Comunicación de Imágenes</p>
+                </div>
+                <div class="system-item">
+                    <h4>EMR/EHR</h4>
+                    <p>Historia Clínica Electrónica</p>
+                </div>
+                <div class="system-item">
+                    <h4>TC</h4>
+                    <p>Tomografía Computarizada</p>
+                </div>
+                <div class="system-item">
+                    <h4>RM</h4>
+                    <p>Resonancia Magnética</p>
+                </div>
+                <div class="system-item">
+                    <h4>RX</h4>
+                    <p>Radiografía Digital</p>
+                </div>
+                <div class="system-item">
+                    <h4>US</h4>
+                    <p>Ultrasonido</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
