@@ -1,0 +1,131 @@
+🧠 Conversión de DICOM a BIDS con BIDScoin
+[TITLE - Make this a large heading]
+
+Este proyecto documenta el proceso para convertir imágenes médicas en formato DICOM a la estructura estándar BIDS (Brain Imaging Data Structure) utilizando BIDScoin.
+[Note: Make "DICOM" and "BIDS (Brain Imaging Data Structure)" and "BIDScoin" bold]
+
+-------------------------------------------
+
+📁 Estructura inicial de los datos
+[HEADING 2 - Make this a medium heading]
+
+Los datos originales están organizados así:
+
+├── raw/
+│ ├── 0001/
+│ ├── 0002/
+│ ├── 0003/
+│ └── 0004/
+├── bids/ ← Aquí se almacenará la salida en formato BIDS
+
+[Note: Format the above file tree using monospace/courier font]
+
+Cambiamos los nombres de los archivos para evitar errores y poner formato sub-xxx
+
+├── raw/
+│ ├── sub-001/
+│ ├── sub-002/
+│ ├── sub-003/
+│ └── sub-004/
+├── bids/ ← Aquí se almacenará la salida en formato BIDS
+
+[Note: Format the above file tree using monospace/courier font]
+
+-------------------------------------------
+
+🛠️ Paso 1: Crear el mapa BIDS
+[HEADING 2 - Make this a medium heading]
+
+Ejecutamos bidsmapper para escanear los datos DICOM y generar un mapeo automático inicial.
+[Note: Make "bidsmapper" bold]
+
+bidsmapper raw bids
+[Note: Format this command using monospace/courier font]
+
+Esto genera una carpeta bids/bidsmap/ con el archivo bidsmap.yaml.
+[Note: Make "bids/bidsmap/" and "bidsmap.yaml" bold]
+
+[INSERT IMAGE: Estructura inicial - Reference: Practice2/Point1/Plots/3.png]
+
+-------------------------------------------
+
+🖼️ Paso 2: Editar el archivo de mapeo
+[HEADING 2 - Make this a medium heading]
+
+Usamos el editor gráfico de BIDScoin para revisar y corregir la clasificación de cada imagen:
+
+bidseditor
+[Note: Format this command using monospace/courier font]
+
+[INSERT IMAGE: Reference: Practice2/Point1/Plots/4.png]
+
+[CREATE TABLE with the following data:]
+#     | BIDS output path                               | BIDS datatype | BIDS suffix
+001   | sub-001_mod-SAG3DT1ACCELERATED.*               | anat          | T1w
+002   | sub-001_mod-FLAIRSAG3D.*                       | anat          | FLAIR
+003   | sub-003_acq-HEADEC2_mod-SAGT1_echo-1_SE.*     | anat          | T1w
+004   | sub-004_mod-AXT2.*                             | anat          | T2w
+005   | sub-005_mod-T2COR.*                            | anat          | T2w
+
+[Note: Make column headers bold, and format the paths in monospace font]
+
+-------------------------------------------
+
+⚙️ Paso 3: Ejecutar la conversión
+[HEADING 2 - Make this a medium heading]
+
+Con el mapeo definido, ejecutamos el proceso de conversión:
+
+bidscoiner raw bids
+[Note: Format this command using monospace/courier font]
+
+[INSERT IMAGE: Reference: Practice2/Point1/Plots/5.png]
+
+-------------------------------------------
+
+📂 Estructura BIDS generada
+[HEADING 2 - Make this a medium heading]
+
+Obtenemos finalmente los archivos en estructura bids con los nombres correspondientes.
+[Note: Make "estructura bids" bold]
+
+bids/
+├── dataset_description.json
+├── participants.tsv
+├── sub-001/
+│   └── anat/
+│       └── sub-001_T1w.nii.gz
+│       └── sub-001_T1w.json
+│       └── sub-001_FLAIR.nii.gz
+│       └── sub-001_FLAIR.json
+├── sub-003/
+│   └── anat/
+│       └── sub-003_T1w.nii.gz
+...
+
+[Note: Format the above file tree using monospace/courier font]
+
+[INSERT IMAGE: Estructura inicial - Reference: Practice2/Point1/Plots/6.png]
+
+-------------------------------------------
+
+✅ Paso 4: Validar con bids-validator
+[HEADING 2 - Make this a medium heading]
+
+Se utiliza la aplicación web de bids validator
+[Note: Make "bids validator" bold]
+
+[INSERT IMAGE: Reference: Practice2/Point1/Plots/7.png]
+
+Se encontraron algunos "warnings" pero estos no son problemas graves y están enfocados a sugerencias, por tanto se puede decir que la validación ha sido exitosa.
+[Note: Make "warnings" bold and italicize "validación ha sido exitosa"]
+
+-------------------------------------------
+
+FORMATTING INSTRUCTIONS FOR GOOGLE DOCS:
+1. Apply the heading styles as indicated
+2. Make text bold where noted
+3. Use monospace/Courier font for code blocks and file trees
+4. Insert the referenced images at the indicated locations
+5. Create the table using Google Docs table feature
+6. The line separators (---) can be replaced with horizontal lines in Google Docs 
